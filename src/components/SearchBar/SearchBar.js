@@ -1,25 +1,26 @@
-
+import { SearchBarStyles, SearchForm, SerchFormBtn, SearchInput } from "./SearchBar.styled";
+import { BsSearch } from 'react-icons/bs';
 
 export const SearchBar = ({ onSubmit }) => {
     return (
-        <header>
-            <form onSubmit={evt => {
+        <SearchBarStyles>
+            <SearchForm onSubmit={evt => {
                 evt.preventDefault();
                 const form = evt.currentTarget;
                 const query = form.elements.search.value;
                 onSubmit(query);
                 form.reset();
             }}>
-                <button type="submit" >
-                    <span>Search</span>
-                </button>
+                <SerchFormBtn type="submit" >
+                    <BsSearch size={25}/>
+                </SerchFormBtn>
 
-                <input
+                <SearchInput
                     name="search"
                     type="text"
                     placeholder="Search images and photos"
                 />
-            </form>
-        </header>
+            </SearchForm>
+        </SearchBarStyles>
     );
 };

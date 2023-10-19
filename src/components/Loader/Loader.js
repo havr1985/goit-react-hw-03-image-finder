@@ -6,7 +6,12 @@ export const loadSpinner = (
   height="80"
   width="80"
   ariaLabel="vortex-loading"
-  wrapperStyle={{}}
+    wrapperStyle={{
+    position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+  }}
   wrapperClass="vortex-wrapper"
   colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
 />

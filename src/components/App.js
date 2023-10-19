@@ -4,7 +4,9 @@ import { fetchImages } from "./Api";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { LoadMore } from "./LoadMore/LoadMore";
 import { loadSpinner } from "./Loader/Loader";
-import { ErrMsg } from "./ErrorMassage";
+import { ErrMsg } from "./ErrorMassage/ErrorMassage";
+import toast, { Toaster } from 'react-hot-toast';
+import { Layout } from "./Layout";
 
 export class App extends Component {
   state = {
@@ -21,7 +23,6 @@ export class App extends Component {
       page: 1,
       images:[],
     });
-    console.log(this.state.query)
   }
 
   handleLoadMore = () => {
@@ -32,11 +33,17 @@ export class App extends Component {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
       try {
         this.setState({ loading: true, error: false });
-        const newImg = await fetchImages(this.state.query, this.state.page);
-        console.log(newImg)
+        const apiData = await fetchImages(this.state.query, this.state.page);
+        const newImg = apiData.hits;
         this.setState(prevState => ({
           images: [...prevState.images, ...newImg]
         }))
+
+        if (newImg.length > 0) {
+          toast.success(`Hooray! We found totalHits images: ${apiData.totalHits}`);
+        } else {
+          toast.error('Sorry, there are no images matching your search query. Please try again.');
+        }
       
       } catch (error) {
         this.setState({ error: true });
@@ -50,15 +57,15 @@ export class App extends Component {
 
   render() {
     const { loading, error } = this.state
-    console.log(this.state)
     return (
-      <div>
+      <Layout>
         <SearchBar onSubmit={this.handleSubmit} />
         {loading && (loadSpinner)}
         {error && <ErrMsg/>}
         {this.state.images.length > 0 && <ImageGallery addImages={this.state.images} />}
         {this.state.images.length > 0 && <LoadMore onClick={this.handleLoadMore} />}
-      </div>
+        <Toaster position="top-right"/>
+      </Layout>
     )
   }
 }

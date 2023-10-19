@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-
+import { Img } from "./GalleryItem.styled";
 import { Component } from 'react';
 
 const customStyles = {
@@ -19,11 +19,11 @@ overlay: {
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    zIndex: 1200,
   },
 };
 
 Modal.setAppElement('#root');
-
 export class ImageGalleryItem extends Component {
   state = {
     isModalOpen: false,
@@ -44,7 +44,7 @@ export class ImageGalleryItem extends Component {
       return (
         <>
         <div onClick={this.openModal}>
-            <img src={webformatURL} alt={tags} />   
+            <Img src={webformatURL} alt={tags} />   
         </div>
 
         <Modal
